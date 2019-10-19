@@ -32,13 +32,16 @@ function addTodos() {
   updateUncheckedItemCount(1)
 }
 
-function deleteTodo(dateValue) {
+function deleteTodo(dateValue, checked) {
   const newArr = todos.filter(
     todo => todo.moment.valueOf() !== dateValue
   )
   todos = newArr
-  renderList(newArr)
   updateItemCount(-1)
+  if (checked === false) {
+    updateUncheckedItemCount(-1)
+  }
+  renderList(newArr)
 }
 
 function updateItemCount(difference) {
@@ -71,14 +74,14 @@ function renderTodo({ todo, moment, checked }) {
         <li class="todo-container">
           <input type="checkbox" class="todo-checkbox" onchange="changeState(${moment.valueOf()},${checked})" checked>
           <span class="todo-text">${todo}</span>
-          <button class="todo-delete" onclick="deleteTodo(${moment.valueOf()})">Delete</delete>
+          <button class="todo-delete" onclick="deleteTodo(${moment.valueOf()})">Delete</button>
         </li>`
   } else {
     return `
       <li class="todo-container">
         <input type="checkbox" class="todo-checkbox" onchange="changeState(${moment.valueOf()},${checked})">
         <span class="todo-text">${todo}</span>
-        <button class="todo-delete" onclick="deleteTodo(${moment.valueOf()})">Delete</delete>
+        <button class="todo-delete" onclick="deleteTodo(${moment.valueOf()},${checked})">Delete</delete>
       </li>`
   }
 }
